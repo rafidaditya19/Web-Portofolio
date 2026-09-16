@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Certificate } from "@/data/types";
 import { X, Award, Calendar, Building2, CheckCircle2, ExternalLink } from "lucide-react";
-import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface CertificateModalProps {
   certificate: Certificate | null;
@@ -31,11 +31,17 @@ export default function CertificateModal({ certificate, onClose }: CertificateMo
   if (!certificate) return null;
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-xs animate-in fade-in duration-200"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-md"
       onClick={onClose}
     >
-      <div
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ type: "spring", damping: 25, stiffness: 300 }}
         className="relative w-full max-w-2xl bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
