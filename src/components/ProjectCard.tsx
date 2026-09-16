@@ -172,14 +172,24 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
             <div className="relative w-full h-[320px] sm:h-[450px] bg-zinc-950 rounded-xl overflow-hidden flex items-center justify-center">
               {!failedImages[activePhoto.src] ? (
-                <Image
-                  src={activePhoto.src}
-                  alt={activePhoto.alt}
-                  fill
-                  className="object-contain select-none"
-                  draggable={false}
-                  onContextMenu={(e) => e.preventDefault()}
-                />
+                <>
+                  <Image
+                    src={activePhoto.src}
+                    alt={activePhoto.alt}
+                    fill
+                    className="object-contain select-none"
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
+                  />
+                  {/* Anti-Theft Watermark Overlay */}
+                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none overflow-hidden opacity-30">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                      <div key={i} className="text-white font-black text-2xl md:text-3xl transform -rotate-45 whitespace-nowrap my-6 tracking-widest drop-shadow-md">
+                        VIEW ONLY • NUR RAFID ADITYA
+                      </div>
+                    ))}
+                  </div>
+                </>
               ) : (
                 <div className="flex flex-col items-center justify-center p-8 text-center text-zinc-400">
                   <ImageIcon className="w-12 h-12 mb-3 text-zinc-500" />
