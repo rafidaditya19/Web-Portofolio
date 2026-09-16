@@ -80,10 +80,20 @@ export default function CertificateModal({ certificate, onClose }: CertificateMo
                 src={certificate.image}
                 alt={certificate.title}
                 fill
-                className="object-contain"
+                className="object-contain select-none"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
                 sizes="(max-width: 768px) 100vw, 800px"
                 onError={() => setImageError(true)}
               />
+              {/* Anti-Theft Watermark Overlay */}
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none overflow-hidden opacity-20 dark:opacity-30">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="text-zinc-900 dark:text-white font-black text-2xl md:text-3xl transform -rotate-45 whitespace-nowrap my-6 tracking-widest drop-shadow-md">
+                    VIEW ONLY • NUR RAFID ADITYA
+                  </div>
+                ))}
+              </div>
             </div>
           ) : (
             <div className="w-full max-w-lg p-8 rounded-xl border-2 border-dashed border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-xs flex flex-col items-center justify-center">

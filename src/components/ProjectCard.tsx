@@ -176,7 +176,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                   src={activePhoto.src}
                   alt={activePhoto.alt}
                   fill
-                  className="object-contain"
+                  className="object-contain select-none"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               ) : (
                 <div className="flex flex-col items-center justify-center p-8 text-center text-zinc-400">
