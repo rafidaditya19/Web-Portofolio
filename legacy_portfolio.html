@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nur Rafid Aditya - Portfolio</title>
+  <style>
+    /* ===== LESSON 2: DESIGN SYSTEM =====
+       Semua warna, radius, dan shadow disimpen jadi "variabel" CSS
+       di :root, biar konsisten dan gampang diubah dari satu tempat aja. */
+    :root {
+      --bg: #fbfbfd;
+      --bg-alt: #f5f5f7;
+      --surface: #ffffff;
+      --text: #1d1d1f;
+      --text-secondary: #6e6e73;
+      --accent: #0071e3;
+      --divider: #d2d2d7;
+      --radius-sm: 12px;
+      --radius-lg: 20px;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      --max-width: 720px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth; /* biar transisi pas klik menu nav jadi halus */
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    /* ===== NAVBAR: nempel di atas (sticky) + efek blur kaca buram ===== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(251, 251, 253, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--divider);
+    }
+    .nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    /* ===== HERO: nama & tagline besar di atas ===== */
+    .hero {
+      text-align: center;
+      padding: 72px 24px 56px;
+    }
+    .hero h1 {
+      font-size: 44px;
+    }
+    .hero .tagline {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* ===== SECTION: tiap section punya jarak & scroll-margin
+       biar gak ketutupan navbar pas di-klik dari menu ===== */
+    section, footer {
+      scroll-margin-top: 70px;
+      padding: 64px 24px;
+    }
+    .section-alt {
+      background: var(--bg-alt);
+    }
+    section h2 {
+      font-size: 28px;
+    }
+
+    /* ===== CERTIFICATIONS: list diubah jadi "chip" bulat pakai CSS,
+       tag HTML-nya tetep <ul><li>, cuma tampilannya yang beda ===== */
+    #certifications ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    #certifications li {
+      background: var(--surface);
+      border: 1px solid var(--divider);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+    #certifications li:hover {
+      transform: translateY(-2px);
+    }
+
+    /* ===== LESSON 3: MODAL POP-UP buat preview sertifikat ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 24px;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+    .modal-content {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      max-width: 90vw;
+      max-height: 90vh;
+      overflow: auto;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      animation: modalPop 0.2s ease;
+    }
+    @keyframes modalPop {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-content img {
+      max-width: 100%;
+      max-height: 70vh;
+      border-radius: var(--radius-sm);
+      display: block;
+      margin: 0 auto 12px;
+    }
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--bg-alt);
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      line-height: 1;
+    }
+    #cert-modal-caption {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* ===== PORTFOLIO: tiap project dibungkus jadi "card" ===== */
+    #portfolio article {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+    #portfolio article:last-child {
+      margin-bottom: 0;
+    }
+    #portfolio .meta {
+      color: var(--text-secondary);
+      font-size: 15px;
+      margin: 0 0 16px;
+    }
+    #portfolio ul {
+      padding-left: 20px;
+      margin: 16px 0 0;
+    }
+    #portfolio li {
+      margin-bottom: 8px;
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .gallery img {
+      width: 140px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      transition: transform 0.2s ease;
+    }
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    /* ===== UPDATES: dibikin kayak garis waktu (timeline) ===== */
+    #updates ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-left: 2px solid var(--divider);
+    }
+    #updates li {
+      position: relative;
+      padding: 0 0 20px 24px;
+    }
+    #updates li::before {
+      content: "";
+      position: absolute;
+      left: -7px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    #updates li:last-child {
+      padding-bottom: 0;
+    }
+
+    /* ===== FOOTER: dibikin gelap biar jadi penutup yang tegas ===== */
+    footer {
+      background: var(--text);
+      color: #f5f5f7;
+      text-align: center;
+    }
+    footer h2 {
+      color: #fff;
+    }
+    footer p {
+      color: #a1a1a6;
+    }
+    footer a {
+      color: #fff;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 32px; }
+      .nav-links { gap: 12px; }
+      .nav-links a { font-size: 12px; }
+      #portfolio article { padding: 24px; }
+      .gallery img { width: 110px; height: 80px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV: menu navigasi yang selalu nempel di atas layar -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#profile" class="brand">Rafid Aditya</a>
+      <div class="nav-links">
+        <a href="#profile">About</a>
+        <a href="#certifications">Certifications</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#updates">Updates</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HEADER/HERO: nama & tagline besar di paling atas -->
+  <header>
+    <div class="hero">
+      <h1>Nur Rafid Aditya</h1>
+      <p class="tagline">Senior High School Graduate (Math &amp; Science) | BNSP Certified - Electrical Engineering &amp; Industrial Automation</p>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- SECTION 1: Profil singkat tentang diri kamu -->
+    <section id="profile">
+      <div class="container">
+        <h2>About Me</h2>
+        <p>
+          Hi, I'm Rafid, a senior high school graduate majoring in Math and
+          Science (MIPA), holding BNSP professional certifications in
+          electrical engineering and industrial automation. I'm currently
+          learning to code to grow further in the tech industry.
+          (Replace this paragraph with your own story!)
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Sertifikat & skill, ditampilin sebagai chip -->
+    <section id="certifications" class="section-alt">
+      <div class="container">
+        <h2>Certifications &amp; Skills</h2>
+        <ul>
+          <li onclick="openCertModal('images/certificates/cert-industrial-automation.jpg', 'Industrial Automation - BNSP (2026)')">Industrial Automation - BNSP (2026)</li>
+          <li onclick="openCertModal('images/certificates/cert-xlsmart-future-ready.png', 'XL Smart Future Ready - XL Smart (2026)')">XL Smart Future Ready - XL Smart (2026)</li>
+          <li onclick="openCertModal('images/certificates/cert-pbk-training.jpg', 'Competency-Based Training (PBK) - Ministry of Manpower of the Republic of Indonesia (2026)')">Competency-Based Training (PBK) - Ministry of Manpower of the Republic of Indonesia (2026)</li>
+          <li onclick="openCertModal('images/certificates/cert-electrical-engineering.jpg', 'Electrical Engineering - BNSP (2025)')">Electrical Engineering - BNSP (2025)</li>
+          <li onclick="openCertModal('images/certificates/cert-bts-huawei.jpg', 'BTS Installation Technician L0 - Huawei Tech Investment (2025)')">BTS Installation Technician L0 - Huawei Tech Investment (2025)</li>
+          <li onclick="openCertModal('images/certificates/cert-smart-building-denki.jpg', 'Smart Building Project - PT Denki Engineering (2025)')">Smart Building Project - PT Denki Engineering (2025)</li>
+          <li onclick="openCertModal('images/certificates/cert-iot-raspberrypi.jpg', 'IoT with Raspberry Pi - PT Tekolab Akademi (2025)')">IoT with Raspberry Pi - PT Tekolab Akademi (2025)</li>
+          <li onclick="openCertModal('images/certificates/cert-pbl-training.jpg', 'Project-Based Learning (PBL) - Ministry of Manpower of the Republic of Indonesia (2025)')">Project-Based Learning (PBL) - Ministry of Manpower of the Republic of Indonesia (2025)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SECTION 3: Portfolio/project, tiap project jadi 1 card -->
+    <section id="portfolio">
+      <div class="container">
+        <h2>Portfolio</h2>
+
+        <article>
+          <h3>Smart Office</h3>
+          <p class="meta">Installation Supervisor - PUNYA Skill Akademi Headquarters, Bandung (2026)</p>
+          <p>
+            Supervised the installation of smart components integrated with
+            the "Tuya" application. Created and analyzed wiring layouts and
+            determined the MSRA (Method Statement and Risk Assessment). Also
+            built a custom UI/UX dashboard using Home Assistant and set up a
+            server using Oracle VirtualBox.
+          </p>
+          <div class="gallery">
+            <img src="images/home-os-dashboard-night.png" alt="Home Assistant dashboard at night">
+            <img src="images/home-os-dashboard-day.png" alt="Home Assistant dashboard in the afternoon">
+            <img src="images/jarvis-dashboard-test.jpg" alt="Testing the dashboard on-site">
+            <img src="images/wiring-inspection.jpg" alt="Inspecting the wiring installation">
+            <img src="images/site-briefing-1.jpg" alt="Site briefing with the installation team">
+            <img src="images/site-briefing-2.jpg" alt="Team briefing in front of the building">
+            <img src="images/goals-meeting.jpg" alt="Smart Building team goals meeting">
+          </div>
+        </article>
+
+        <article>
+          <h3>OJT Smart Building</h3>
+          <p class="meta">PT Denki Engineering (2025)</p>
+          <p>
+            Learned the security process using iris biometric technology and
+            K3 (Occupational Health and Safety) practices on the project.
+          </p>
+          <ul>
+            <li>Analyzed materials and project requirements through electrical and mechanical engineering drawings.</li>
+            <li>Conducted and observed the processes and mechanisms of bio-septic tanks, domestic wastewater treatment plants, and HVAC systems.</li>
+            <li>Installed single-phase electrical systems with several smart devices.</li>
+            <li>Implemented smart building integration systems through applications and monitored them in real time.</li>
+          </ul>
+          <div class="gallery">
+            <img src="images/denki-team-event.jpg" alt="Team event at PT Denki Engineering">
+            <img src="images/denki-briefing-room.jpg" alt="Project briefing session at PT Denki Engineering">
+            <img src="images/denki-training-certificate.jpg" alt="Training certificate ceremony at PT Denki Engineering">
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- SECTION 4: Update kegiatan, ditampilin sebagai timeline -->
+    <section id="updates" class="section-alt">
+      <div class="container">
+        <h2>Latest Updates</h2>
+        <ul>
+          <li>Sep 2026 - Started building this portfolio website together with Claude</li>
+          <li>(Add your own updates here)</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER: kontak, dibikin gelap biar jadi penutup halaman -->
+  <footer id="contact">
+    <div class="container">
+      <h2>Contact</h2>
+      <p>Email: <a href="mailto:rafidaditya2005@gmail.com">rafidaditya2005@gmail.com</a> | LinkedIn: <a href="https://bit.ly/4rhDggk" target="_blank" rel="noopener">LinkedIn</a> | GitHub: <a href="https://bit.ly/4r6mwsa" target="_blank" rel="noopener">GitHub</a></p>
+    </div>
+  </footer>
+  <!-- MODAL: pop-up buat nampilin gambar sertifikat pas di-klik -->
+  <div id="cert-modal" class="modal-overlay" onclick="closeCertModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeCertModal()">&times;</button>
+      <img id="cert-modal-img" src="" alt="Certificate preview">
+      <p id="cert-modal-caption"></p>
+    </div>
+  </div>
+
+  <script>
+    // Fungsi ini dipanggil tiap li sertifikat di-klik (lihat atribut onclick di tiap <li>)
+    function openCertModal(imageSrc, caption) {
+      document.getElementById('cert-modal-img').src = imageSrc;
+      document.getElementById('cert-modal-caption').textContent = caption;
+      document.getElementById('cert-modal').classList.add('open');
+    }
+
+    function closeCertModal() {
+      document.getElementById('cert-modal').classList.remove('open');
+    }
+
+    // Biar bisa ditutup juga pakai tombol Escape di keyboard
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeCertModal();
+    });
+  </script>
+
+</body>
+</html>
