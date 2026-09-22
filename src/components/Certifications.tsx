@@ -120,10 +120,14 @@ export default function Certifications() {
       </div>
 
       {/* Modal Dialog for Certificate Preview */}
-      <CertificateModal
-        certificate={activeCertificate}
-        onClose={() => setActiveCertificate(null)}
-      />
-    </section>
+      <AnimatePresence>
+        {activeCertificate && (
+          <CertificateModal
+            certificate={activeCertificate}
+            onClose={() => setActiveCertificate(null)}
+          />
+        )}
+      </AnimatePresence>
+    </motion.section>
   );
 }

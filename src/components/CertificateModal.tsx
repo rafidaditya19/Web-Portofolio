@@ -147,7 +147,7 @@ export default function CertificateModal({ certificate, onClose }: CertificateMo
             </p>
           )}
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

@@ -209,6 +209,47 @@ export const projects: Project[] = [
     ],
   },
   {
+    id: "huawei-bts-l0-exam",
+    title: "Huawei BTS L0 Certification Practical Assessment",
+    role: "Telecom Infrastructure Trainee",
+    company: "PT Huawei Tech Investment",
+    location: "Indonesia",
+    year: 2025,
+    summary:
+      "Executed rigorous practical assessments for the Huawei L0 Certification, demonstrating proficiency in Base Transceiver Station (BTS) infrastructure and telecommunications equipment deployment.",
+    highlights: [
+      "Performed hands-on installation and configuration of Huawei telecom equipment adhering to strict industry standards.",
+      "Executed precision grounding, weatherproofing, and cabling management for outdoor and indoor telecommunication sites.",
+      "Demonstrated strict compliance with Occupational Health & Safety (K3) and safe tower climbing procedures.",
+      "Completed rigorous technical audits for antenna alignment, power telemetry, and infrastructure integrity.",
+    ],
+    techStack: [
+      "Huawei Telecom Equipment",
+      "BTS Infrastructure",
+      "Grounding & Cabling",
+      "K3 Safety Standards",
+      "Weatherproofing",
+      "Infrastructure Audit",
+    ],
+    images: [
+      {
+        src: "/images/projects/huawei-praktek-1.jpg",
+        alt: "Huawei Practical Assessment Session 1",
+        caption: "Hands-on installation and wiring assessment for Huawei BTS equipment",
+      },
+      {
+        src: "/images/projects/huawei-praktek-2.jpg",
+        alt: "Huawei Practical Assessment Session 2",
+        caption: "Technical configuration and system checks under supervision",
+      },
+      {
+        src: "/images/projects/huawei-praktek-3.jpg",
+        alt: "Huawei Practical Assessment Session 3",
+        caption: "Applying safety protocols and K3 standards during practical implementation",
+      },
+    ],
+  },
+  {
     id: "ojt-smart-building",
     title: "On-the-Job Training: Smart Building Engineering",
     role: "Engineering Trainee (OJT)",

@@ -142,78 +142,87 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       )}
 
       {/* Photo Lightbox Modal */}
-      {activePhoto && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs animate-in fade-in"
-          onClick={() => setActivePhoto(null)}
-        >
-          <div
-            className="relative max-w-3xl w-full bg-zinc-900 text-white rounded-2xl overflow-hidden shadow-2xl p-4"
-            onClick={(e) => e.stopPropagation()}
+      <AnimatePresence>
+        {activePhoto && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+            onClick={() => setActivePhoto(null)}
           >
-            <div className="flex items-center justify-between pb-3 border-b border-zinc-800 mb-4">
-              <span className="text-xs text-zinc-400 font-medium">
-                {activePhoto.caption || activePhoto.alt}
-              </span>
-              <div className="flex items-center gap-2">
-                <a
-                  href={activePhoto.src}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
-                  title="Open full resolution image in new tab"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Full Photo</span>
-                </a>
-                <button
-                  onClick={() => setActivePhoto(null)}
-                  className="p-1 rounded-full text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-
-            <div className="relative w-full h-[320px] sm:h-[450px] bg-zinc-950 rounded-xl overflow-hidden flex items-center justify-center">
-              {!failedImages[activePhoto.src] ? (
-                <>
-                  <Image
-                    src={activePhoto.src}
-                    alt={activePhoto.alt}
-                    fill
-                    className="object-contain select-none"
-                    draggable={false}
-                    onContextMenu={(e) => e.preventDefault()}
-                  />
-                  {/* Anti-Theft Watermark Overlay */}
-                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none overflow-hidden opacity-30">
-                    {Array.from({ length: 6 }).map((_, i) => (
-                      <div key={i} className="text-white font-black text-2xl md:text-3xl transform -rotate-45 whitespace-nowrap my-6 tracking-widest drop-shadow-md">
-                        VIEW ONLY • NUR RAFID ADITYA
-                      </div>
-                    ))}
-                  </div>
-                </>
-              ) : (
-                <div className="flex flex-col items-center justify-center p-8 text-center text-zinc-400">
-                  <ImageIcon className="w-12 h-12 mb-3 text-zinc-500" />
-                  <p className="text-sm font-semibold">{activePhoto.alt}</p>
-                  <p className="text-xs text-zinc-500 mt-1">
-                    Image path: public{activePhoto.src}
-                  </p>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative max-w-3xl w-full bg-zinc-900 text-white rounded-2xl overflow-hidden shadow-2xl p-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between pb-3 border-b border-zinc-800 mb-4">
+                <span className="text-xs text-zinc-400 font-medium">
+                  {activePhoto.caption || activePhoto.alt}
+                </span>
+                <div className="flex items-center gap-2">
+                  <a
+                    href={activePhoto.src}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+                    title="Open full resolution image in new tab"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">Full Photo</span>
+                  </a>
+                  <button
+                    onClick={() => setActivePhoto(null)}
+                    className="p-1 rounded-full text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
                 </div>
-              )}
-            </div>
+              </div>
 
-            {activePhoto.caption && (
-              <p className="mt-3 text-xs text-zinc-300 text-center">
-                {activePhoto.caption}
-              </p>
-            )}
-          </div>
-        </div>
-      )}
+              <div className="relative w-full h-[320px] sm:h-[450px] bg-zinc-950 rounded-xl overflow-hidden flex items-center justify-center">
+                {!failedImages[activePhoto.src] ? (
+                  <>
+                    <Image
+                      src={activePhoto.src}
+                      alt={activePhoto.alt}
+                      fill
+                      className="object-contain select-none"
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
+                    />
+                    {/* Anti-Theft Watermark Overlay */}
+                    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none overflow-hidden opacity-30">
+                      {Array.from({ length: 6 }).map((_, i) => (
+                        <div key={i} className="text-white font-black text-2xl md:text-3xl transform -rotate-45 whitespace-nowrap my-6 tracking-widest drop-shadow-md">
+                          VIEW ONLY • NUR RAFID ADITYA
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex flex-col items-center justify-center p-8 text-center text-zinc-400">
+                    <ImageIcon className="w-12 h-12 mb-3 text-zinc-500" />
+                    <p className="text-sm font-semibold">{activePhoto.alt}</p>
+                    <p className="text-xs text-zinc-500 mt-1">
+                      Image path: public{activePhoto.src}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {activePhoto.caption && (
+                <p className="mt-3 text-xs text-zinc-300 text-center">
+                  {activePhoto.caption}
+                </p>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </article>
   );
 }
