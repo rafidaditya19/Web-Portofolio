@@ -5,6 +5,7 @@ import { certificates } from "@/data/portfolio-data";
 import { Certificate } from "@/data/types";
 import CertificateModal from "./CertificateModal";
 import { Award, Eye, ShieldCheck } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Certifications() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -18,7 +19,11 @@ export default function Certifications() {
       : certificates.filter((c) => c.category === selectedCategory);
 
   return (
-    <section
+    <motion.section
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6, type: "spring", bounce: 0.2 }}
       id="certifications"
       className="py-16 md:py-24 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30"
     >
@@ -37,7 +42,9 @@ export default function Certifications() {
           {/* Category Filter Tabs */}
           <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
             {categories.map((cat) => (
-              <button
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
@@ -47,7 +54,7 @@ export default function Certifications() {
                 }`}
               >
                 {cat}
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
@@ -55,10 +62,13 @@ export default function Certifications() {
         {/* Certificate Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {filteredCertificates.map((cert) => (
-            <div
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
               key={cert.id}
               onClick={() => setActiveCertificate(cert)}
-              className="group relative p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs hover:shadow-md hover:border-blue-500/40 dark:hover:border-blue-500/40 transition-all cursor-pointer flex flex-col justify-between"
+              className="group relative p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs hover:shadow-md hover:border-blue-500/40 dark:hover:border-blue-500/40 transition-colors cursor-pointer flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">

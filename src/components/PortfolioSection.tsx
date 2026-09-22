@@ -1,9 +1,17 @@
 import { projects } from "@/data/portfolio-data";
 import ProjectCard from "./ProjectCard";
+import { motion } from "framer-motion";
 
 export default function PortfolioSection() {
   return (
-    <section id="projects" className="py-16 md:py-24 border-t border-zinc-200 dark:border-zinc-800">
+    <motion.section
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6, type: "spring", bounce: 0.2 }}
+      id="projects"
+      className="py-16 md:py-24 border-t border-zinc-200 dark:border-zinc-800"
+    >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-14">
           <h2 className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-2">
@@ -23,6 +31,6 @@ export default function PortfolioSection() {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

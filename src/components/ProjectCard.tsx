@@ -12,7 +12,7 @@ import {
   Image as ImageIcon,
   ExternalLink,
 } from "lucide-react";
-import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface ProjectCardProps {
   project: Project;
@@ -31,7 +31,12 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   };
 
   return (
-    <article className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-all">
+    <motion.article 
+      whileHover={{ scale: 1.01 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+      className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-shadow"
+    >
       {/* Top Header info */}
       <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
         <div>

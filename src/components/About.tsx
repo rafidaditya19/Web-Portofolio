@@ -1,9 +1,17 @@
 import { personalInfo } from "@/data/portfolio-data";
 import { GraduationCap, Award, Compass, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function About() {
   return (
-    <section id="about" className="py-16 md:py-24 border-t border-zinc-200 dark:border-zinc-800/80 bg-zinc-50/50 dark:bg-zinc-900/30">
+    <motion.section
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6, type: "spring", bounce: 0.2 }}
+      id="about"
+      className="py-16 md:py-24 border-t border-zinc-200 dark:border-zinc-800/80 bg-zinc-50/50 dark:bg-zinc-900/30"
+    >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-12">
           <h2 className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-2">
@@ -24,7 +32,7 @@ export default function About() {
             ))}
 
             <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs">
+              <motion.div whileHover={{ scale: 1.02 }} className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs">
                 <div className="flex items-center gap-3 mb-2">
                   <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-600 dark:text-blue-400">
                     <GraduationCap className="w-4 h-4" />
@@ -36,9 +44,9 @@ export default function About() {
                 <p className="text-xs text-zinc-500 dark:text-zinc-400">
                   Mathematics &amp; Natural Sciences (MIPA) graduate with rigorous analytical problem-solving and logic.
                 </p>
-              </div>
+              </motion.div>
 
-              <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs">
+              <motion.div whileHover={{ scale: 1.02 }} className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs">
                 <div className="flex items-center gap-3 mb-2">
                   <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                     <Award className="w-4 h-4" />
@@ -50,13 +58,13 @@ export default function About() {
                 <p className="text-xs text-zinc-500 dark:text-zinc-400">
                   BNSP certified in Electrical Engineering (2025) and Industrial Automation (2026).
                 </p>
-              </div>
+              </motion.div>
             </div>
           </div>
 
           {/* Quick Info & Highlights Sidebar (5 Columns) */}
           <div className="lg:col-span-5 space-y-4">
-            <div className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm">
+            <motion.div whileHover={{ scale: 1.01 }} className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm">
               <h4 className="font-semibold text-zinc-900 dark:text-white text-base mb-4 flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-blue-600" />
                 <span>Professional Highlights</span>
@@ -98,10 +106,10 @@ export default function About() {
                   Open to Opportunities
                 </span>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
