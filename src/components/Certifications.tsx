@@ -5,7 +5,7 @@ import { certificates } from "@/data/portfolio-data";
 import { Certificate } from "@/data/types";
 import CertificateModal from "./CertificateModal";
 import { Award, Eye, ShieldCheck } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Certifications() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");

@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 
 import { useEffect, useState } from "react";
 import { Certificate } from "@/data/types";
@@ -88,7 +89,7 @@ export default function CertificateModal({ certificate, onClose }: CertificateMo
                 fill
                 className="object-contain select-none"
                 draggable={false}
-                onContextMenu={(e) => e.preventDefault()}
+                onContextMenu={(e: any) => e.preventDefault()}
                 sizes="(max-width: 768px) 100vw, 800px"
                 onError={() => setImageError(true)}
               />

@@ -1,5 +1,6 @@
 "use client";
-
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Project } from "@/data/types";
 import {
@@ -192,7 +193,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                       fill
                       className="object-contain select-none"
                       draggable={false}
-                      onContextMenu={(e) => e.preventDefault()}
+                      onContextMenu={(e: any) => e.preventDefault()}
                     />
                     {/* Anti-Theft Watermark Overlay */}
                     <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none overflow-hidden opacity-30">
