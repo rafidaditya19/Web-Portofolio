@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+
 
 import { useEffect, useState } from "react";
 import { Certificate } from "@/data/types";
@@ -89,18 +89,16 @@ export default function CertificateModal({ certificate, onClose }: CertificateMo
                 fill
                 className="object-contain select-none"
                 draggable={false}
-                onContextMenu={(e: any) => e.preventDefault()}
+                onContextMenu={(e) => e.preventDefault()}
                 sizes="(max-width: 768px) 100vw, 800px"
                 onError={() => setImageError(true)}
               />
               {/* Anti-Theft Watermark Overlay */}
-        <div className="absolute inset-0 z-10 pointer-events-none select-none overflow-hidden flex flex-col justify-around opacity-25 -rotate-45 scale-150">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <div key={i} className="whitespace-nowrap text-xs sm:text-sm font-black tracking-widest text-zinc-900 dark:text-white uppercase text-center">
-              VIEW ONLY • NUR RAFID ADITYA &nbsp;&nbsp;&nbsp;&nbsp; VIEW ONLY • NUR RAFID ADITYA &nbsp;&nbsp;&nbsp;&nbsp; VIEW ONLY • NUR RAFID ADITYA
-            </div>
-          ))}
-        </div>
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none overflow-hidden opacity-20 dark:opacity-30">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="text-zinc-900 dark:text-white font-black text-2xl md:text-3xl transform -rotate-45 whitespace-nowrap my-6 tracking-widest drop-shadow-md">
+                    VIEW ONLY • NUR RAFID ADITYA
+                  </div>
                 ))}
               </div>
             </div>
