@@ -1,3 +1,4 @@
+"use client";
 import { projects } from "@/data/portfolio-data";
 import ProjectCard from "./ProjectCard";
 import { motion } from "framer-motion";
