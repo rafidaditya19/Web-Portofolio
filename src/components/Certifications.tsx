@@ -25,7 +25,7 @@ export default function Certifications() {
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.6, type: "spring", bounce: 0.2 }}
       id="certifications"
-      className="py-16 md:py-24 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30"
+      className="py-16 md:py-24 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30">
     
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-10">
