@@ -1,3 +1,4 @@
+"use client";
 import { personalInfo } from "@/data/portfolio-data";
 import { GraduationCap, Award, Compass, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
