@@ -14,6 +14,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 
+
 interface ProjectCardProps {
   project: Project;
 }
@@ -31,11 +32,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   };
 
   return (
-    <motion.article 
-      whileHover={{ scale: 1.01 }}
+    <motion.article
+      whileHover={{ scale: 1.02, y: -5 }}
       whileTap={{ scale: 0.98 }}
-      transition={{ type: "spring", stiffness: 400, damping: 25 }}
-      className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-shadow"
+      transition={{ duration: 0.2, ease: "easeOut" }}
+      className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-cyan-500/50 hover:shadow-xl hover:shadow-cyan-500/20 transition-all duration-300"
     >
       {/* Top Header info */}
       <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
