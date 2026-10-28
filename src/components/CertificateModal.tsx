@@ -130,7 +130,7 @@ export default function CertificateModal({ certificate, onClose }: CertificateMo
                   onError={() => setImageError(true)}
                 />
 
-                {/* Anti-Theft Watermark Overlay (Zoom & Drag Bersamaan) */}
+                {/* Anti-Theft Watermark Overlay */}
                 <div className="absolute inset-0 z-10 pointer-events-none select-none overflow-hidden flex flex-col justify-around opacity-25 -rotate-45 scale-150">
                   {Array.from({ length: 12 }).map((_, i) => (
                     <div key={i} className="whitespace-nowrap text-xs sm:text-sm font-black tracking-widest text-zinc-900 dark:text-white uppercase text-center">
@@ -163,4 +163,30 @@ export default function CertificateModal({ certificate, onClose }: CertificateMo
         </div>
 
         {/* Details Footer */}
-        <div className="p-5 sm:p-6 space-y
+        <div className="p-5 sm:p-6 space-y-4">
+          <div>
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-white">
+              {certificate.title}
+            </h3>
+            <div className="flex flex-wrap items-center gap-y-1 gap-x-4 mt-2 text-xs text-zinc-600 dark:text-zinc-400">
+              <span className="flex items-center gap-1.5">
+                <Building2 className="w-3.5 h-3.5 text-zinc-400" />
+                {certificate.issuer}
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-zinc-400" />
+                Year: {certificate.year}
+              </span>
+            </div>
+          </div>
+
+          {certificate.description && (
+            <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed pt-2 border-t border-zinc-100 dark:border-zinc-800">
+              {certificate.description}
+            </p>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
