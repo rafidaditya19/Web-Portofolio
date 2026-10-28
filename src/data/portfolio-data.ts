@@ -77,7 +77,7 @@ export const certificates: Certificate[] = [
     category: "BNSP",
     description:
       "National professional competency certification recognizing mastery in industrial automation processes, control systems, and field implementations.",
-    image: "/images/certificates/cert-industrial-automation.jpg",
+    image: "/images/certificates/BNSP-Otomasi Industri.jpg",
   },
   {
     id: "cert-bnsp-electrical",
@@ -87,7 +87,7 @@ export const certificates: Certificate[] = [
     category: "BNSP",
     description:
       "National standard professional certification validating core competencies in electrical circuits, wiring schematics, and safety compliance.",
-    image: "/images/certificates/cert-electrical-engineering.jpg",
+    image: "/images/certificates/BNSP-Teknik Listrik.jpg",
   },
   {
     id: "cert-bts-huawei",
