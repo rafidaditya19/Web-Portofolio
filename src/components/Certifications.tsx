@@ -26,7 +26,7 @@ export default function Certifications() {
       transition={{ duration: 0.6, type: "spring", bounce: 0.2 }}
       id="certifications"
       className="py-16 md:py-24 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30"
-    >
+    
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-10">
           <h2 className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-2">
@@ -111,7 +111,6 @@ export default function Certifications() {
                 <Eye className="w-3.5 h-3.5" />
               </div>
             </div>
-           </div> 
           ))}
         </div>
 
