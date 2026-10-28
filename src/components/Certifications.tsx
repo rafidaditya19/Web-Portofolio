@@ -111,6 +111,7 @@ export default function Certifications() {
                 <Eye className="w-3.5 h-3.5" />
               </div>
             </div>
+           </div> 
           ))}
         </div>
 
