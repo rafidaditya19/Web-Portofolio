@@ -223,6 +223,6 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           </motion.div>
         )}
       </AnimatePresence>
-    </article>
+    </motion.article>
   );
 }
