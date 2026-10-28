@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Certificate } from "@/data/types";
-import { X, Award, Calendar, Building2, CheckCircle2 } from "lucide-react";
+import { X, Award, Calendar, Building2, CheckCircle2, ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface CertificateModalProps {
@@ -13,9 +13,11 @@ interface CertificateModalProps {
 
 export default function CertificateModal({ certificate, onClose }: CertificateModalProps) {
   const [imageError, setImageError] = useState(false);
+  const [scale, setScale] = useState(1);
 
   useEffect(() => {
     setImageError(false);
+    setScale(1);
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
@@ -28,6 +30,10 @@ export default function CertificateModal({ certificate, onClose }: CertificateMo
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [certificate, onClose]);
+
+  const handleZoomIn = () => setScale((prev) => Math.min(prev + 0.5, 3));
+  const handleZoomOut = () => setScale((prev) => Math.max(prev - 0.5, 1));
+  const handleResetZoom = () => setScale(1);
 
   if (!certificate) return null;
 
@@ -56,38 +62,83 @@ export default function CertificateModal({ certificate, onClose }: CertificateMo
               Issued in {certificate.year}
             </span>
           </div>
-          <button
-            onClick={onClose}
-            className="p-1.5 rounded-full text-zinc-400 hover:text-zinc-700 dark:hover:text-white hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors"
-            aria-label="Close modal"
-          >
-            <X className="w-5 h-5" />
-          </button>
+
+          <div className="flex items-center gap-2">
+            {/* Zoom Controls */}
+            {certificate.image && !imageError && (
+              <div className="flex items-center gap-1 bg-zinc-200/60 dark:bg-zinc-800 p-1 rounded-lg mr-2">
+                <button
+                  onClick={handleZoomOut}
+                  disabled={scale <= 1}
+                  className="p-1 rounded text-zinc-600 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-700 disabled:opacity-40 transition-colors"
+                  title="Zoom Out"
+                >
+                  <ZoomOut className="w-4 h-4" />
+                </button>
+                <span className="text-xs font-mono px-1 min-w-[36px] text-center text-zinc-700 dark:text-zinc-300">
+                  {Math.round(scale * 100)}%
+                </span>
+                <button
+                  onClick={handleZoomIn}
+                  disabled={scale >= 3}
+                  className="p-1 rounded text-zinc-600 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-700 disabled:opacity-40 transition-colors"
+                  title="Zoom In"
+                >
+                  <ZoomIn className="w-4 h-4" />
+                </button>
+                {scale > 1 && (
+                  <button
+                    onClick={handleResetZoom}
+                    className="p-1 rounded text-zinc-600 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-700 transition-colors"
+                    title="Reset Zoom"
+                  >
+                    <RotateCcw className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+            )}
+
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-full text-zinc-400 hover:text-zinc-700 dark:hover:text-white hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors"
+              aria-label="Close modal"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {/* Certificate Image Preview */}
-        <div className="p-4 sm:p-6 bg-zinc-100 dark:bg-zinc-950/80 flex flex-col items-center justify-center min-h-[300px] text-center">
+        <div className="p-4 sm:p-6 bg-zinc-100 dark:bg-zinc-950/80 flex flex-col items-center justify-center min-h-[300px] text-center overflow-hidden">
           {certificate.image && !imageError ? (
             <div className="relative w-full h-[360px] sm:h-[460px] rounded-lg overflow-hidden shadow-sm border border-zinc-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/50 select-none">
-              <Image
-                src={certificate.image}
-                alt={certificate.title}
-                fill
-                className="object-contain select-none pointer-events-none"
-                draggable={false}
-                onContextMenu={(e: React.MouseEvent) => e.preventDefault()}
-                sizes="(max-width: 768px) 100vw, 800px"
-                onError={() => setImageError(true)}
-              />
+              <motion.div
+                animate={{ scale }}
+                transition={{ duration: 0.2 }}
+                drag={scale > 1}
+                dragConstraints={{ left: -150 * (scale - 1), right: 150 * (scale - 1), top: -150 * (scale - 1), bottom: 150 * (scale - 1) }}
+                className={`relative w-full h-full ${scale > 1 ? 'cursor-grab active:cursor-grabbing' : ''}`}
+              >
+                <Image
+                  src={certificate.image}
+                  alt={certificate.title}
+                  fill
+                  className="object-contain select-none pointer-events-none"
+                  draggable={false}
+                  onContextMenu={(e: React.MouseEvent) => e.preventDefault()}
+                  sizes="(max-width: 768px) 100vw, 800px"
+                  onError={() => setImageError(true)}
+                />
 
-              {/* Anti-Theft Watermark Overlay */}
-              <div className="absolute inset-0 z-10 pointer-events-none select-none overflow-hidden flex flex-col justify-around opacity-25 -rotate-45 scale-150">
-                {Array.from({ length: 12 }).map((_, i) => (
-                  <div key={i} className="whitespace-nowrap text-xs sm:text-sm font-black tracking-widest text-zinc-900 dark:text-white uppercase text-center">
-                    VIEW ONLY • NUR RAFID ADITYA &nbsp;&nbsp;&nbsp;&nbsp; VIEW ONLY • NUR RAFID ADITYA &nbsp;&nbsp;&nbsp;&nbsp; VIEW ONLY • NUR RAFID ADITYA
-                  </div>
-                ))}
-              </div>
+                {/* Anti-Theft Watermark Overlay (Zoom & Drag Bersamaan) */}
+                <div className="absolute inset-0 z-10 pointer-events-none select-none overflow-hidden flex flex-col justify-around opacity-25 -rotate-45 scale-150">
+                  {Array.from({ length: 12 }).map((_, i) => (
+                    <div key={i} className="whitespace-nowrap text-xs sm:text-sm font-black tracking-widest text-zinc-900 dark:text-white uppercase text-center">
+                      VIEW ONLY • NUR RAFID ADITYA &nbsp;&nbsp;&nbsp;&nbsp; VIEW ONLY • NUR RAFID ADITYA &nbsp;&nbsp;&nbsp;&nbsp; VIEW ONLY • NUR RAFID ADITYA
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
             </div>
           ) : (
             <div className="w-full max-w-lg p-8 rounded-xl border-2 border-dashed border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-xs flex flex-col items-center justify-center">
@@ -112,30 +163,4 @@ export default function CertificateModal({ certificate, onClose }: CertificateMo
         </div>
 
         {/* Details Footer */}
-        <div className="p-5 sm:p-6 space-y-4">
-          <div>
-            <h3 className="text-xl font-bold text-zinc-900 dark:text-white">
-              {certificate.title}
-            </h3>
-            <div className="flex flex-wrap items-center gap-y-1 gap-x-4 mt-2 text-xs text-zinc-600 dark:text-zinc-400">
-              <span className="flex items-center gap-1.5">
-                <Building2 className="w-3.5 h-3.5 text-zinc-400" />
-                {certificate.issuer}
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5 text-zinc-400" />
-                Year: {certificate.year}
-              </span>
-            </div>
-          </div>
-
-          {certificate.description && (
-            <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed pt-2 border-t border-zinc-100 dark:border-zinc-800">
-              {certificate.description}
-            </p>
-          )}
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-}
+        <div className="p-5 sm:p-6 space-y
