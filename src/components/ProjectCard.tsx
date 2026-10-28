@@ -13,7 +13,6 @@ import {
   Image as ImageIcon,
   ExternalLink,
 } from "lucide-react";
-import { motion } from "framer-motion";
 
 interface ProjectCardProps {
   project: Project;
