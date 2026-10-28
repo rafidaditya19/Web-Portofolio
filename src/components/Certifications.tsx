@@ -110,7 +110,7 @@ export default function Certifications() {
                 <span className="text-[11px] font-medium">View credential</span>
                 <Eye className="w-3.5 h-3.5" />
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
