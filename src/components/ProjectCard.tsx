@@ -8,7 +8,6 @@ import {
   MapPin,
   Calendar,
   Briefcase,
-  CheckCircle2,
   Maximize2,
   X,
   Image as ImageIcon,
@@ -23,6 +22,9 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
+  // Cast ke any agar TypeScript tidak error jika nama properti di types.ts berbeda
+  const p = project as any;
+
   const [activePhoto, setActivePhoto] = useState<{
     src: string;
     alt: string;
@@ -44,6 +46,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     setScale(1);
   };
 
+  const photosList = p.photos || p.images || [];
+  const techList = p.technologies || p.techStack || p.tags || [];
+  const linkUrl = p.liveUrl || p.link || p.demoUrl || p.githubUrl;
+  const timePeriod = p.period || p.year || p.date;
+
   return (
     <>
       <motion.article
@@ -55,24 +62,24 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         {/* Top Header info */}
         <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
           <div>
-            {project.role && (
+            {p.role && (
               <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 mb-2">
-                {project.role}
+                {p.role}
               </span>
             )}
             <h3 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
-              {project.title}
+              {p.title}
             </h3>
           </div>
 
           <div className="flex items-center gap-2">
-            {project.liveUrl && (
+            {linkUrl && (
               <a
-                href={project.liveUrl}
+                href={linkUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-xl border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-cyan-500 dark:hover:text-cyan-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
-                title="Visit Live Demo"
+                title="Visit Project"
               >
                 <ExternalLink className="w-5 h-5" />
               </a>
@@ -82,74 +89,78 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
         {/* Meta Sub-header */}
         <div className="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs text-zinc-500 dark:text-zinc-400 mb-4">
-          {project.company && (
+          {p.company && (
             <span className="flex items-center gap-1.5">
               <Briefcase className="w-3.5 h-3.5 text-zinc-400" />
-              {project.company}
+              {p.company}
             </span>
           )}
-          {project.period && (
+          {timePeriod && (
             <span className="flex items-center gap-1.5">
               <Calendar className="w-3.5 h-3.5 text-zinc-400" />
-              {project.period}
+              {timePeriod}
             </span>
           )}
-          {project.location && (
+          {p.location && (
             <span className="flex items-center gap-1.5">
               <MapPin className="w-3.5 h-3.5 text-zinc-400" />
-              {project.location}
+              {p.location}
             </span>
           )}
         </div>
 
         {/* Description */}
-        {project.description && (
+        {p.description && (
           <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-6">
-            {project.description}
+            {p.description}
           </p>
         )}
 
         {/* Photos Preview Grid */}
-        {project.photos && project.photos.length > 0 && (
+        {photosList.length > 0 && (
           <div className="mb-6">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3 flex items-center gap-1.5">
               <ImageIcon className="w-3.5 h-3.5" /> Project Documentation
             </h4>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {project.photos.map((photo, index) =>
-                !failedImages[photo.src] ? (
+              {photosList.map((photo: any, index: number) => {
+                const photoSrc = typeof photo === "string" ? photo : photo.src;
+                const photoAlt = typeof photo === "string" ? p.title : photo.alt;
+                const photoObj = typeof photo === "string" ? { src: photo, alt: p.title } : photo;
+
+                return !failedImages[photoSrc] ? (
                   <div
                     key={index}
-                    onClick={() => setActivePhoto(photo)}
+                    onClick={() => setActivePhoto(photoObj)}
                     className="group relative h-28 rounded-xl overflow-hidden bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 cursor-pointer select-none"
                   >
                     <Image
-                      src={photo.src}
-                      alt={photo.alt}
+                      src={photoSrc}
+                      alt={photoAlt || "Project photo"}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                       sizes="(max-width: 768px) 50vw, 33vw"
-                      onError={() => handleImageError(photo.src)}
+                      onError={() => handleImageError(photoSrc)}
                     />
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
                       <Maximize2 className="w-5 h-5" />
                     </div>
                   </div>
-                ) : null
-              )}
+                ) : null;
+              })}
             </div>
           </div>
         )}
 
         {/* Tech Stack Pills */}
-        {project.technologies && project.technologies.length > 0 && (
+        {techList.length > 0 && (
           <div className="flex flex-wrap gap-1.5 pt-4 border-t border-zinc-100 dark:border-zinc-800/60">
-            {project.technologies.map((tech, idx) => (
+            {techList.map((tech: any, idx: number) => (
               <span
                 key={idx}
                 className="px-2.5 py-1 rounded-md text-xs font-medium bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200/50 dark:border-zinc-700/50"
               >
-                {tech}
+                {typeof tech === "string" ? tech : tech.name || tech.title}
               </span>
             ))}
           </div>
@@ -242,7 +253,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                   >
                     <Image
                       src={activePhoto.src}
-                      alt={activePhoto.alt}
+                      alt={activePhoto.alt || "Preview"}
                       fill
                       className="object-contain select-none pointer-events-none"
                       draggable={false}
